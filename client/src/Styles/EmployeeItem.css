@@ -1,0 +1,16 @@
+.employeeItem {
+    border: 1px solid black;
+    height: 1.5rem;
+    width: 100%;
+}
+
+.content {
+    background-color: aqua;
+    display: flex;
+    height: 100%;
+    flex-direction: row;
+}
+
+h3 {
+    margin: 0px 10px 0px 10px;
+}

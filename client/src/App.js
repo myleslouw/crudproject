@@ -10,6 +10,9 @@ function App() {
   const [position,setPosition] = useState("");
   const [wage,setWage] = useState(0);
 
+  const [testData, setTestData] = useState('');
+
+  let updatedEmployeeInfo;
 
   const [employeeList, setEmployeeList] = useState([]);
 
@@ -19,14 +22,25 @@ function App() {
     })
   }
 
- /*  const updateEmployeeDetails = () => {
-    Axios.put('http://localhost:3001/update', {wage: newWage, id: newID}).then(
+  const updateEmployeeDetails = (employeeID) => {
+    console.log(testData);
+    Axios.put('http://localhost:3001/update', {name: updatedEmployeeInfo.newName, age: updatedEmployeeInfo.newAge, country: updatedEmployeeInfo.newCountry, position: updatedEmployeeInfo.newPosition, wage: updatedEmployeeInfo.newWage, id: employeeID}).then(
       (response) => {
         alert('Updated')
       }
     )
   }
- */
+
+  const getNewDetails = (_name, _age, _country, _position, _wage) => {        //stores the data from the child class (editPopup) in an object to use in the update request
+    
+    console.log('new details are: ' + _name + _age + _country + _position + _wage);
+    updatedEmployeeInfo.newName = _name;
+    updatedEmployeeInfo.newAge = _age;
+    updatedEmployeeInfo.newCountry = _country;
+    updatedEmployeeInfo.newPosition = _position;
+    updatedEmployeeInfo.newWage = _wage;
+  }
+
 
   //the delete button doestn work right away after making an item becuase it needs to get sent to the database
   //and ID so it can grab that and delete it
@@ -97,6 +111,9 @@ function App() {
           empCountry={val.country}
           empPosition={val.position}
           empWage={val.wage}
+          passData={setTestData}
+          updateCallBack={() => getNewDetails()} 
+          updateDB={() => updateEmployeeDetails(val.Id)}        //getNewDetails from child form and then updates the employee by its ID
           deleteFunc={() => deleteEmployee(val.Id)}
           />
         })}

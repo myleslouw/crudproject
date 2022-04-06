@@ -46,14 +46,14 @@ app.get('/employees', (req, res) => {   //server side get request for showing al
 })
 
 app.put('/update', (req, res) => {
-  const id = req.body.Id;
-  const name = req.body.name;
-  const age = req.body.age;
-  const country = req.body.country;
-  const position = req.body.position;
-  const wage = req.body.wage;
+  const _id = req.body.Id;
+  const _name = req.body.name;
+  const _age = req.body.age;
+  const _country = req.body.country;
+  const _position = req.body.position;
+  const _wage = req.body.wage;
 
-  db.query('UPDATE employees SET name = ?, age = ?, country = ?, position = ?, wage = ? WHERE Id = ?', [name, age, country, position, wage, id], (err, result) => {
+  db.query('UPDATE employees SET name = ?, age = ?, country = ?, position = ?, wage = ? WHERE Id = ?', [_name, _age, _country, _position, _wage, _id], (err, result) => {
     if (err) {
       console.log
     } else {

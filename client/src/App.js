@@ -19,14 +19,14 @@ function App() {
     })
   }
 
-  /* const updateEmployeeWage = () => {
+ /*  const updateEmployeeDetails = () => {
     Axios.put('http://localhost:3001/update', {wage: newWage, id: newID}).then(
       (response) => {
         alert('Updated')
       }
     )
-  } */
-
+  }
+ */
 
   //the delete button doestn work right away after making an item becuase it needs to get sent to the database
   //and ID so it can grab that and delete it
@@ -55,9 +55,7 @@ function App() {
     console.log(employeeList);
     Axios.delete(`http://localhost:3001/delete/${employeeID}`);
     console.log('Deleted Client Side with iD: ' + employeeID)
-    const index = employeeList.findIndex(obj => obj.Id === employeeID)
-    setEmployeeList(prevList => prevList.splice(index,1));
-    //console.log(employeeList);
+    setEmployeeList(employeeList.filter(obj => obj.Id !==employeeID)); //sets the list to the existing list minus the deleted employee
   }
 
   return (

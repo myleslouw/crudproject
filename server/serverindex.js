@@ -57,6 +57,7 @@ app.put('/update', (req, res) => {
     if (err) {
       console.log
     } else {
+      console.log('Successful update!')
       res.send(result);
     }
   })
@@ -64,7 +65,7 @@ app.put('/update', (req, res) => {
 
 app.delete('/delete/:employeeID', (req, res) => {
   const empID = req.params.employeeID;
-  console.log("found iD is " + empID);
+  console.log("found ID is " + empID);
 
   db.query('DELETE FROM employeesystem.employees WHERE Id = ?', empID, (err, result) => {
     console.log("Server side deleting Id: " + empID)

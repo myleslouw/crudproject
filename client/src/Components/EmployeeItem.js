@@ -4,10 +4,11 @@ import EditPopup from './EditPopup'
 import DeletePopup from './DeletePopup'
 import { useState } from 'react'
 
-function EmployeeItem({ _passData, empName, empAge, empCountry, empPosition, empWage, deleteFunc, _updateCallBack, _updateDB}) {
+function EmployeeItem({ empName, empAge, empCountry, empPosition, empWage, deleteFunc, _updateCallBack, _updateDB}) {
     
     const [btnPopup, setBtnPopup] = useState(false)
     const [deletePopup, setDeletePopup] = useState(false)
+    //const [pls, setPls] = useState([])
     
     
     return (
@@ -28,8 +29,7 @@ function EmployeeItem({ _passData, empName, empAge, empCountry, empPosition, emp
                 prevCountry={empCountry}
                 prevPosition={empPosition}
                 prevWage={empWage}
-                passData={_passData}
-                updateCallBack={_updateCallBack}
+                updateCallBack={_updateCallBack}            //gets data from the editpop, through this comp and then to app
                 updateDB={_updateDB}
             />
             <DeletePopup 

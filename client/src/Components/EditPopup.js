@@ -2,7 +2,7 @@ import React from 'react'
 import '../Styles/EditPopup.css'
 import { useState } from 'react'
 
-function EditPopup({trigger, setTrigger, passData, updateCallBack, updateDB, prevName, prevAge, prevCountry, prevPosition, prevWage}) {
+function EditPopup({trigger, setTrigger, updateCallBack, updateDB, prevName, prevAge, prevCountry, prevPosition, prevWage}) {
 
   const [newName, setNewName] = useState(prevName);
   const [newAge, setNewAge] = useState(prevAge);
@@ -10,9 +10,10 @@ function EditPopup({trigger, setTrigger, passData, updateCallBack, updateDB, pre
   const [newPosition, setNewPosition] = useState(prevPosition);
   const [newWage, setNewWage] = useState(prevWage);
 
-  const functionHandler = (data) => {
-    passData(data);
-  }
+
+  // /https://www.youtube.com/watch?v=BtImABK_VHo
+
+
 
   return (trigger) ? (
     <div className='Popup'>
@@ -49,7 +50,7 @@ function EditPopup({trigger, setTrigger, passData, updateCallBack, updateDB, pre
                   }}></input>
                 </div>
               </div>
-            <button className='btnConfirm' onClick={() => {functionHandler({fisrt: newName}); updateDB();}}>Confirm</button>
+            <button className='btnConfirm' onClick={() => { setTrigger(false); updateCallBack([newName, newAge, newCountry, newPosition, newWage]); /*  updateCallBack({edittedName: newName, edittedAge: newAge, edittedCountry: newCountry, edittedPosition: newPosition, edittedWage: newWage}); */ updateDB();}}>Confirm</button>
             <button className='btnCancel' onClick={() => setTrigger(false)}>Cancel</button>
         </div>
     </div>

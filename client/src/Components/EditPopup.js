@@ -50,7 +50,7 @@ function EditPopup({trigger, setTrigger, updateCallBack, updateDB, prevName, pre
                   }}></input>
                 </div>
               </div>
-            <button className='btnConfirm' onClick={() => { setTrigger(false); updateCallBack([newName, newAge, newCountry, newPosition, newWage]); /*  updateCallBack({edittedName: newName, edittedAge: newAge, edittedCountry: newCountry, edittedPosition: newPosition, edittedWage: newWage}); */ updateDB();}}>Confirm</button>
+            <button className='btnConfirm' onClick={() => { updateCallBack([newName, newAge, newCountry, newPosition, newWage]); setTrigger(false);  updateDB();}}>Confirm</button>
             <button className='btnCancel' onClick={() => setTrigger(false)}>Cancel</button>
         </div>
     </div>

@@ -1,5 +1,5 @@
 import './App.css';
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Axios from 'axios'
 import EmployeeItem from './Components/EmployeeItem';
 
@@ -21,6 +21,7 @@ function App() {
   const [wage,setWage] = useState(0);
 
   const [testData, setTestData] = useState([]);
+  let newData;        //the updated data of employee to be sent to the DB
 
   const [employeeList, setEmployeeList] = useState([]);
   //#endregion
@@ -33,17 +34,14 @@ function App() {
   }
 
   const updateEmployeeDetails = (employeeID) => {
-
-    console.log(testData);
-    const [edittedName, edittedAge, edittedCountry, edittedPosition, edittedWage] = testData;
-    console.log('destructured');
+    const [edittedName, edittedAge, edittedCountry, edittedPosition, edittedWage] = newData;
     console.log('new Details are ' + edittedName +  edittedAge +  edittedCountry +  edittedPosition +  edittedWage);
 
-   /*  Axios.put('http://localhost:3001/update', {name: edittedName, age: edittedAge, country: edittedCountry, position: edittedPosition, wage: edittedWage, id: employeeID}).then(
+    Axios.put('http://localhost:3001/update', {name: edittedName, age: edittedAge, country: edittedCountry, position: edittedPosition, wage: edittedWage, id: employeeID}).then(
       (response) => {
         alert('Updated')
       }
-    ) */
+    )
   }
 
 
@@ -74,6 +72,14 @@ function App() {
   }
 
   //#endregion
+
+  const updateEmployee = (newDetails) => {
+    console.log('new deets: ' + newDetails)
+    newData = newDetails
+    setTestData(newDetails)
+  }
+
+
 
   return (
     <div className="App">
@@ -110,12 +116,13 @@ function App() {
       <div className='employeeContainer'>
         {employeeList.map((val) => {
           return <EmployeeItem
+          key={val.Id}
           empName={val.name}
           empAge={val.age}
           empCountry={val.country}
           empPosition={val.position}
           empWage={val.wage}
-          _updateCallBack={setTestData} 
+          _updateCallBack={updateEmployee} 
           _updateDB={() => updateEmployeeDetails(val.Id)}        //getNewDetails from child form and then updates the employee by its ID
           deleteFunc={() => deleteEmployee(val.Id)}
           />

@@ -1,5 +1,5 @@
 import './App.css';
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Axios from 'axios'
 import EmployeeItem from './Components/EmployeeItem';
 
@@ -14,11 +14,11 @@ function App() {
 
 
   //#region  variables
-  const [name,setName] = useState("");
-  const [age,setAge] = useState(0);
-  const [country,setCountry] = useState("");
-  const [position,setPosition] = useState("");
-  const [wage,setWage] = useState(0);
+  const [name, setName] = useState("");
+  const [age, setAge] = useState(0);
+  const [country, setCountry] = useState("");
+  const [position, setPosition] = useState("");
+  const [wage, setWage] = useState(0);
 
   const [testData, setTestData] = useState([]);
   let newData;        //the updated data of employee to be sent to the DB
@@ -28,18 +28,18 @@ function App() {
 
   //#region  serverRequests
   const getEmployees = () => {
-    Axios.get('http://localhost:3001/employees').then((response)=> {  //the client side request for employees
+    Axios.get('http://localhost:3001/employees').then((response) => {  //the client side request for employees
       setEmployeeList(response.data)
     })
   }
 
   const updateEmployeeDetails = (employeeID) => {
     const [edittedName, edittedAge, edittedCountry, edittedPosition, edittedWage] = newData;
-    console.log('new Details are ' + edittedName +  edittedAge +  edittedCountry +  edittedPosition +  edittedWage);
 
-    Axios.put('http://localhost:3001/update', {name: edittedName, age: edittedAge, country: edittedCountry, position: edittedPosition, wage: edittedWage, id: employeeID}).then(
+    Axios.put('http://localhost:3001/update', { Id: employeeID, name: edittedName, age: edittedAge, country: edittedCountry, position: edittedPosition, wage: edittedWage }).then(
       (response) => {
-        alert('Updated')
+        console.log('update successful client Side')
+        getEmployees();
       }
     )
   }
@@ -48,18 +48,18 @@ function App() {
   const addEmployee = () => {
     Axios.post('http://localhost:3001/create', {    //the client side post request of adding the employee to the database
       name: name,
-      age: age, 
-      country: country, 
-      position: position, 
+      age: age,
+      country: country,
+      position: position,
       wage: wage
-    }).then(()=> {
-      console.log('success');       //logs success and then adds the new employee in the lsit
-      setEmployeeList([...employeeList, 
+    }).then(() => {
+      console.log('added Client Side');       //logs success and then adds the new employee in the lsit
+      setEmployeeList([...employeeList,
       {
         name: name,
-        age: age, 
-        country: country, 
-        position: position, 
+        age: age,
+        country: country,
+        position: position,
         wage: wage
       }])
     })
@@ -68,13 +68,12 @@ function App() {
   const deleteEmployee = (employeeID) => {
     Axios.delete(`http://localhost:3001/delete/${employeeID}`);
     console.log('Deleted Client Side with iD: ' + employeeID)
-    setEmployeeList(employeeList.filter(obj => obj.Id !==employeeID)); //sets the list to the existing list minus the deleted employee
+    setEmployeeList(employeeList.filter(obj => obj.Id !== employeeID)); //sets the list to the existing list minus the deleted employee
   }
 
   //#endregion
 
   const updateEmployee = (newDetails) => {
-    console.log('new deets: ' + newDetails)
     newData = newDetails
     setTestData(newDetails)
   }
@@ -83,52 +82,51 @@ function App() {
 
   return (
     <div className="App">
-      <div className='InputForm'>        {/* this is all the inputs */}   
-          <label>Name:</label>
-          <input type="text" onChange={(event) => {
-                setName(event.target.value);
-              }}>
-            </input>
-          <label>Age:</label>
-          <input type="number" onChange={(event) => {
-                setAge(event.target.value);
-              }}>
-            </input>
-          <label>Country:</label>
-          <input type="text"  onChange={(event) => {
-                setCountry(event.target.value);
-              }}>
-            </input>
-          <label>Position:</label>
-          <input type="text" onChange={(event) => {
-                setPosition(event.target.value);
-              }}>
-            </input>
-          <label>Wage:</label>
-          <input type="number" onChange={(event) => {
-                setWage(event.target.value);
-              }}>
-            </input>
-          <button className='btnAddEmployee' onClick={addEmployee}>Add Employee</button>
+      <div className='InputForm'>        {/* this is all the inputs */}
+        <label>Name:</label>
+        <input type="text" onChange={(event) => {
+          setName(event.target.value);
+        }}>
+        </input>
+        <label>Age:</label>
+        <input type="number" onChange={(event) => {
+          setAge(event.target.value);
+        }}>
+        </input>
+        <label>Country:</label>
+        <input type="text" onChange={(event) => {
+          setCountry(event.target.value);
+        }}>
+        </input>
+        <label>Position:</label>
+        <input type="text" onChange={(event) => {
+          setPosition(event.target.value);
+        }}>
+        </input>
+        <label>Wage:</label>
+        <input type="number" onChange={(event) => {
+          setWage(event.target.value);
+        }}>
+        </input>
+        <button className='btnAddEmployee' onClick={addEmployee}>Add Employee</button>
       </div>
       <button className='btnShowEmployees' onClick={getEmployees}>Show Employees</button>
-      <h3>{testData}</h3>
       <div className='employeeContainer'>
         {employeeList.map((val) => {
           return <EmployeeItem
-          key={val.Id}
-          empName={val.name}
-          empAge={val.age}
-          empCountry={val.country}
-          empPosition={val.position}
-          empWage={val.wage}
-          _updateCallBack={updateEmployee} 
-          _updateDB={() => updateEmployeeDetails(val.Id)}        //getNewDetails from child form and then updates the employee by its ID
-          deleteFunc={() => deleteEmployee(val.Id)}
+            key={val.Id}
+            empName={val.name}
+            empAge={val.age}
+            empCountry={val.country}
+            empPosition={val.position}
+            empWage={val.wage}
+            _updateCallBack={updateEmployee}
+            _updateDB={() => { updateEmployeeDetails(val.Id); }}        //getNewDetails from child form and then updates the employee by its ID
+            deleteFunc={() => deleteEmployee(val.Id)}
           />
         })}
       </div>
-     </div>
+    </div>
   );
 }
 
